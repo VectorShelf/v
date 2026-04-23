@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تأكيد حضور | فندق آفال بالمدينة المنورة</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans Arabic', sans-serif;
+            background-color: #fbfbfd;
+            color: #1d1d1f;
+            -webkit-font-smoothing: antialiased;
+        }
+        .premium-shadow {
+            box-shadow: 0 10px 40px rgba(0,0,0,0.04);
+        }
+        .btn-primary {
+            background-color: #173540;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+        .accent-text {
+            color: #cb805b;
+        }
+        .form-input {
+            border: 1px solid #d2d2d7;
+            transition: border-color 0.3s ease;
+        }
+        .form-input:focus {
+            border-color: #173540;
+            outline: none;
+        }
+        .selection-card {
+            cursor: pointer;
+            border: 1.5px solid #f2f2f7;
+            transition: all 0.2s ease;
+        }
+        .selection-card.active {
+            border-color: #173540;
+            background-color: #f5f5f7;
+        }
+        #loading-overlay {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(8px);
+        }
+        .spinner {
+            border: 3px solid rgba(23, 53, 64, 0.1);
+            border-radius: 50%;
+            border-top: 3px solid #173540;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4 md:p-8">
+
+    <div class="max-w-2xl w-full bg-white rounded-3xl premium-shadow overflow-hidden p-8 md:p-12">
+        <!-- Header / Logo -->
+        <div class="flex flex-col items-center text-center mb-10">
+            <img src="https://imgg.io/images/2026/04/23/afdec86b993263e82048bc50f500abd0.png" alt="Logo" class="h-20 w-auto mb-8">
+            <h1 class="text-2xl md:text-3xl font-bold mb-4" style="color: #173540;">لحضور أسبوع آفـال الحصري</h1>
+            <p class="text-gray-500 font-medium text-lg mb-2">الإطلاق الرسمي لفندق آفال بالمدينة المنورة</p>
+            <div class="flex flex-wrap justify-center gap-4 text-sm font-medium mt-4">
+                <span class="flex items-center gap-2 bg-gray-50 px-4 py-2 rounded-full">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                    الثلاثاء ٢٨ أبريل — الخميس ٣٠ أبريل ٢٠٢٦
+                </span>
+                <a href="https://maps.app.goo.gl/iN1QwuEePzU44vmi9" target="_blank" class="flex items-center gap-2 bg-gray-50 px-4 py-2 rounded-full hover:bg-gray-100 transition-colors">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                    فندق آفال المدينة المنورة
+                </a>
+            </div>
+        </div>
+
+        <!-- RSVP Form -->
+        <form id="rsvp-form" class="space-y-8">
+            <!-- Hidden Fields Mapping (Google Form Values) -->
+            <input type="hidden" name="entry.895978333_event" value="لحضور أسبوع آفـال الحصري الإطلاق الرسمي لفندق آفال بالمدينة المنورة">
+            <input type="hidden" name="entry.895978333_host" value="فندق آفال AVAL Hotel">
+            
+            <!-- User Input: Name -->
+            <div class="space-y-3">
+                <label class="block text-sm font-semibold mr-1">اسم المدعو</label>
+                <input type="text" name="entry.895978333" required
+                       placeholder="الاسم الكامل"
+                       class="w-full h-14 px-6 rounded-2xl form-input text-lg">
+            </div>
+
+            <!-- User Input: Attendance -->
+            <div class="space-y-3">
+                <label class="block text-sm font-semibold mr-1">هل يمكن الحضور؟</label>
+                <div class="grid grid-cols-2 gap-4">
+                    <div onclick="setRadio('attendance', 'نعم', this)" class="selection-card p-4 rounded-2xl flex items-center justify-center gap-3 font-medium text-lg">
+                        <span>نعم</span>
+                    </div>
+                    <div onclick="setRadio('attendance', 'لا', this)" class="selection-card p-4 rounded-2xl flex items-center justify-center gap-3 font-medium text-lg">
+                        <span>لا</span>
+                    </div>
+                </div>
+                <input type="hidden" name="entry.1753165446" id="attendance-value" required>
+            </div>
+
+            <!-- User Input: Days (Checkboxes) -->
+            <div class="space-y-3" id="days-section">
+                <label class="block text-sm font-semibold mr-1">في حال يمكنك الحضور، حدد الأيام التي ستكون متواجداً بها:</label>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                    <div onclick="toggleCheckbox('الثلاثاء', this)" class="selection-card p-4 rounded-2xl flex items-center justify-center font-medium">
+                        الثلاثاء
+                    </div>
+                    <div onclick="toggleCheckbox('الأربعاء', this)" class="selection-card p-4 rounded-2xl flex items-center justify-center font-medium">
+                        الأربعاء
+                    </div>
+                    <div onclick="toggleCheckbox('الخميس', this)" class="selection-card p-4 rounded-2xl flex items-center justify-center font-medium">
+                        الخميس
+                    </div>
+                </div>
+                <!-- We'll handle multiple checkboxes via JS on submit -->
+            </div>
+
+            <!-- Submit Button -->
+            <div class="pt-4">
+                <button type="submit" class="w-full h-16 btn-primary text-white rounded-2xl font-bold text-xl shadow-lg">
+                    تأكيد الحضور
+                </button>
+            </div>
+        </form>
+
+        <!-- Success Message (Hidden by default) -->
+        <div id="success-screen" class="hidden flex flex-col items-center text-center py-12 animate-in fade-in duration-700">
+            <div class="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center mb-6">
+                <svg class="w-10 h-10 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+            </div>
+            <h2 class="text-2xl font-bold mb-2">تم تسجيل ردك بنجاح</h2>
+            <p class="text-gray-500">نتطلع لرؤيتكم قريباً في فندق آفال.</p>
+        </div>
+
+        <!-- Footer -->
+        <div class="mt-12 pt-8 border-t border-gray-100 text-center text-xs text-gray-400">
+            &copy; ٢٠٢٦ فندق آفال AVAL Hotel. جميع الحقوق محفوظة.
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="fixed inset-0 hidden items-center justify-center z-50">
+        <div class="flex flex-col items-center">
+            <div class="spinner mb-4"></div>
+            <span class="text-sm font-medium" style="color: #173540;">جاري إرسال طلبك...</span>
+        </div>
+    </div>
+
+    <script>
+        const selectedDays = new Set();
+        const formUrl = "https://docs.google.com/forms/u/0/d/e/1FAIpQLSeOaROp1si_ngNbTJlFsm0WKdmMcucIirkUFsHCUkXWRShPhQ/formResponse";
+
+        function setRadio(name, value, element) {
+            document.getElementById(`${name}-value`).value = value;
+            const cards = element.parentElement.querySelectorAll('.selection-card');
+            cards.forEach(c => c.classList.remove('active'));
+            element.classList.add('active');
+
+            // Logic to hide/show days based on attendance
+            const daysSection = document.getElementById('days-section');
+            if (value === 'لا') {
+                daysSection.style.opacity = '0.3';
+                daysSection.style.pointerEvents = 'none';
+                selectedDays.clear();
+                document.querySelectorAll('#days-section .selection-card').forEach(c => c.classList.remove('active'));
+            } else {
+                daysSection.style.opacity = '1';
+                daysSection.style.pointerEvents = 'auto';
+            }
+        }
+
+        function toggleCheckbox(value, element) {
+            if (selectedDays.has(value)) {
+                selectedDays.delete(value);
+                element.classList.remove('active');
+            } else {
+                selectedDays.add(value);
+                element.classList.add('active');
+            }
+        }
+
+        document.getElementById('rsvp-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const attendance = document.getElementById('attendance-value').value;
+            if (!attendance) {
+                alert("يرجى اختيار حالة الحضور");
+                return;
+            }
+
+            const loading = document.getElementById('loading-overlay');
+            loading.style.display = 'flex';
+
+            const formData = new FormData();
+            formData.append('entry.895978333', e.target['entry.895978333'].value);
+            formData.append('entry.1753165446', attendance);
+            
+            // Map selected days to the Google Form checkbox field
+            selectedDays.forEach(day => {
+                formData.append('entry.563280074', day);
+            });
+
+            try {
+                await fetch(formUrl, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    body: formData
+                });
+                
+                // On Success
+                document.getElementById('rsvp-form').classList.add('hidden');
+                document.getElementById('success-screen').classList.remove('hidden');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } catch (error) {
+                console.error('Error submitting form:', error);
+                alert("حدث خطأ أثناء إرسال البيانات. يرجى المحاولة مرة أخرى.");
+            } finally {
+                loading.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
